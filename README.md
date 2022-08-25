@@ -38,5 +38,5 @@ None
         with:
           username: username
           password: ${{ secrets.UD_BITBUCKET_PASSWORD }}
-          company: union-digital-bank
+          company: company_name
           repository: wallet-service
