@@ -12,14 +12,20 @@ Password to use on bitbucket for authentication and for pushing.
 
 ## Optional Inputs
 ### `username`
-Username to use on bitbucket for 1) authentication and as 2) workspace name. Default: GitHub user name.
+Username to use on bitbucket for authentication. Default: GitHub user name.
 
+### `password`
+Password to use on bitbucket for authentication. Password can be saved as a secret in GitHub.
+
+### `company`
+Company to use on bitbucket repo path.
 ### `repository`
 Name of the repository on bitbucket. If it does not exist, it is created automatically. Default: GitHub repository name.
 
+Sample for explain the usage of the all arguments:
+git push https://"$username:$password"@bitbucket.org/$company/$reponame.git
 ## Outputs
 None
-
 
 ## Example usage
 
@@ -28,7 +34,9 @@ None
         with:
           fetch-depth: 0 # <-- clone with complete history
       - name: Push
-        uses: ./ # Uses an action in the root directory
-        id: mirror-to-bitbucket
+        uses: 101digital/mirror-to-bitbucket-github-action@main
         with:
-          password: ${{ secrets.BITBUCKET_PASSWORD }}
+          username: username
+          password: ${{ secrets.UD_BITBUCKET_PASSWORD }}
+          company: union-digital-bank
+          repository: wallet-service
