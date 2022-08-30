@@ -9,6 +9,7 @@ username="$1"
 password="$2"
 company="$3"
 reponame="$4"
+ignorelist=($5)
 #remote="$4"
 trap - INT TERM EXIT
 
@@ -48,6 +49,12 @@ git init
 git config --global --add safe.directory "*"
 git config --global user.email "githubactions@101digital.io"
 git config --global user.name "Github Actions"
+
+echo "Adding ignore items if defined"
+if [ -n "$ignorelist" ]; then
+for item in "${ignorelist[@]}" ; do echo $item >> .gitignore ; done
+fi
+
 echo "Commit the latest changes to ud/master branch.."
 git add .
 git commit -m "Sync latest changes to UD"

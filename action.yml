@@ -14,6 +14,8 @@ inputs:
   repository:
     required: true
     default: ${{ github.event.repository.name }}
+  ignorelist:
+    required: true
 
 runs:
   using: 'docker'
@@ -23,3 +25,4 @@ runs:
     - ${{ inputs.password }}
     - ${{ inputs.company }}
     - ${{ inputs.repository }}
+    - ${{ inputs.ignorelist }}
