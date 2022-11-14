@@ -62,4 +62,4 @@ git branch -M ud/master
 echo "Set the remote Repo.. https://"$username:$password"@bitbucket.org/$company/$reponame"
 git remote add origin  https://"$username:$password"@bitbucket.org/$company/$reponame
 echo "Pushing to remote..."
-git push https://"$username:$password"@bitbucket.org/$company/$reponame.git --all --force
+git push https://"$username:$password"@bitbucket.org/$company/$reponame.git --all --force-with-lease
