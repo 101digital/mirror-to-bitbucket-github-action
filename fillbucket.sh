@@ -9,7 +9,8 @@ username="$1"
 password="$2"
 company="$3"
 reponame="$4"
-ignorelist=($5)
+branch="$5"
+ignorelist=($6)
 #remote="$4"
 trap - INT TERM EXIT
 
@@ -55,10 +56,10 @@ if [ -n "$ignorelist" ]; then
 for item in "${ignorelist[@]}" ; do echo $item >> .gitignore ; done
 fi
 
-echo "Commit the latest changes to ud/master branch.."
+echo "Commit the latest changes to $branch branch.."
 git add .
 git commit -m "Sync latest changes to UD"
-git branch -M ud/master
+git branch -M $branch
 echo "Set the remote Repo.. https://"$username:$password"@bitbucket.org/$company/$reponame"
 git remote add origin  https://"$username:$password"@bitbucket.org/$company/$reponame
 echo "Pushing to remote..."

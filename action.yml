@@ -14,6 +14,9 @@ inputs:
   repository:
     required: true
     default: ${{ github.event.repository.name }}
+  branch:
+    required: false
+    default: ${{ github.ref_name }}
   ignorelist:
     required: true
 
@@ -25,4 +28,5 @@ runs:
     - ${{ inputs.password }}
     - ${{ inputs.company }}
     - ${{ inputs.repository }}
+    - ${{ inputs.branch }}
     - ${{ inputs.ignorelist }}
