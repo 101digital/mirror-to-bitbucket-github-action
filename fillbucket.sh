@@ -10,7 +10,6 @@ password="$2"
 company="$3"
 reponame="$4"
 branch="$5"
-ignorelist=($6)
 #remote="$4"
 trap - INT TERM EXIT
 
@@ -24,7 +23,6 @@ curl --fail "${CURL_OPTS[@]}" "https://api.bitbucket.org/2.0/user" > /dev/null |
     exit 1
 )
 
-
 reponame=$(echo $reponame | tr '[:upper:]' '[:lower:]')
 
 echo "Checking if BitBucket repository \"$company/$reponame\" exists..."
@@ -33,34 +31,12 @@ curl "${CURL_OPTS[@]}" "https://api.bitbucket.org/2.0/repositories/$company/$rep
     curl -X POST --fail "${CURL_OPTS[@]}" "https://api.bitbucket.org/2.0/repositories/$company/$reponame" -H "Content-Type: application/json" -d '{"scm": "git", "is_private": "true"}' > /dev/null
 )
 
-
-#remote=$(echo $remote | tr '[:upper:]' '[:lower:]')
-#
-#echo "Checking for remote \"$remote\"..."
-#git remote get-url "$remote" &> /dev/null || (
-#    echo "Repository has no remote \"$remote\", creating it..."
-#    git remote add "$remote" https://$username@bitbucket.org/$username/$reponame.git
-#)
-
-
-echo "Pushing to remote..."
-echo "Cleaning the commit history.."
-rm -rf .git
-git init
-git config --global --add safe.directory "*"
+echo "Setup Git"
+git config --global --add safe.directory "/github/workspace"
 git config --global user.email "githubactions@101digital.io"
 git config --global user.name "Github Actions"
 
-echo "Adding ignore items if defined"
-if [ -n "$ignorelist" ]; then
-for item in "${ignorelist[@]}" ; do echo $item >> .gitignore ; done
-fi
-
-echo "Commit the latest changes to $branch branch.."
-git add .
-git commit -m "Sync latest changes to UD"
-git branch -M $branch
 echo "Set the remote Repo.. https://"$username:$password"@bitbucket.org/$company/$reponame"
-git remote add origin  https://"$username:$password"@bitbucket.org/$company/$reponame
+git remote add bitbucket https://"$username:$password"@bitbucket.org/$company/$reponame
 echo "Pushing to remote..."
-git push https://"$username:$password"@bitbucket.org/$company/$reponame.git --all --force-with-lease
+git push bitbucket $branch --force-with-lease

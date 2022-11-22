@@ -17,16 +17,13 @@ inputs:
   branch:
     required: false
     default: ${{ github.ref_name }}
-  ignorelist:
-    required: true
 
 runs:
   using: 'docker'
-  image: 'docker://101digital/mirror-to-bitbucket-github-action:latest'
+  image: 'docker://101digital/mirror-to-bitbucket-github-action:full-history'
   args:
     - ${{ inputs.username }}
     - ${{ inputs.password }}
     - ${{ inputs.company }}
     - ${{ inputs.repository }}
     - ${{ inputs.branch }}
-    - ${{ inputs.ignorelist }}
