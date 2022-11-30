@@ -38,5 +38,6 @@ git config --global user.name "Github Actions"
 
 echo "Set the remote Repo.. https://"$username:$password"@bitbucket.org/$company/$reponame"
 git remote add bitbucket https://"$username:$password"@bitbucket.org/$company/$reponame
+git fetch bitbucket
 echo "Pushing to remote..."
 git push bitbucket $branch --porcelain --force-with-lease --force-if-includes
