@@ -46,7 +46,7 @@ curl "${CURL_OPTS[@]}" "https://api.bitbucket.org/2.0/repositories/$company/$rep
 echo "Pushing to remote..."
 echo "Cleaning the commit history.."
 rm -rf .git
-git init
+git init -b $branch
 git config --global --add safe.directory "*"
 git config --global user.email "githubactions@101digital.io"
 git config --global user.name "Github Actions"
@@ -59,8 +59,7 @@ fi
 echo "Commit the latest changes to $branch branch.."
 git add .
 git commit -m "Sync latest changes to UD"
-git branch -M $branch
 echo "Set the remote Repo.. https://"$username:$password"@bitbucket.org/$company/$reponame"
-git remote add origin  https://"$username:$password"@bitbucket.org/$company/$reponame
+git remote add bitbucket https://"$username:$password"@bitbucket.org/$company/$reponame
 echo "Pushing to remote..."
-git push https://"$username:$password"@bitbucket.org/$company/$reponame.git --all --force-with-lease
+git push bitbucket $branch --porcelain --force-with-lease --force-if-includes
